@@ -1,0 +1,16 @@
+#!/bin/bash
+
+chargingBool=$(system_profiler SPPowerDataType | grep "Charging" | head -1 | awk '{print $2}')
+percentage=$(system_profiler SPPowerDataType | grep "State of Charge (%)" | awk '{print $5}')
+
+
+if [ "$chargingBool" == 'No' ] && [ "$percentage" -le 20 ]
+then
+    curl -X POST  -H 'Content-Type: application/json' -d '{"message":    "turn on"}'
+elif [ "$chargingBool" == 'Yes' ] && [ "$percentage" -ge 80 ]
+then
+    curl -X POST  -H 'Content-Type: application/json' -d '{"messag   e":    "off"}'
+else
+    echo ""
+fi
+
