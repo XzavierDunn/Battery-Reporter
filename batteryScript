@@ -1,20 +1,23 @@
 #!/bin/bash
 
+cd <this directory>
+. ./venv/bin/activate
+
+IP="yourIP"
+startChargingPercentage=15
+stopChargingPercentage=80
+
 chargingBool=$(system_profiler SPPowerDataType | grep "Charging" | head -1 | awk '{print $2}')
 percentage=$(system_profiler SPPowerDataType | grep "State of Charge (%)" | awk '{print $5}')
 
-
-if [ "$chargingBool" == 'No' ] && [ "$percentage" -le 20 ]
+if [ "$chargingBool" == 'No' ] && [ "$percentage" -le $startChargingPercentage ]
 then
-    curl -X POST http://homeassistant.local:8123/api/webhook/laptop-battery-G7aFYdOsS9nZfr1i-cKTdwlk -H 'Content-Type: application/json' -d '{"message":    "turn on"}'
-elif [ "$chargingBool" == 'Yes' ] && [ "$percentage" -ge 80 ]
+    kasa --host $IP on
+elif [ "$chargingBool" == 'Yes' ] && [ "$percentage" -ge $stopChargingPercentage ]
 then
-    curl -X POST http://homeassistant.local:8123/api/webhook/laptop-battery-G7aFYdOsS9nZfr1i-cKTdwlk -H 'Content-Type: application/json' -d '{"messag   e":    "off"}'
-else
-    ECHO ""
+    kasa --host $IP off
 fi
 
 ECHO $chargingBool
 ECHO $percentage
 date
-

@@ -3,14 +3,10 @@
 <plist version="1.0">
     <dict>
         <key>Label</key>
-        <string>battery.check</string>
+        <string>com.user.battery-script</string>
         <key>Program</key>
-        <string>/Users/Shared/batteryScript</string>
+        <string>YOUR/PATH/Battery-Reporter/batteryScript</string>
         <key>StartInterval</key>
         <integer>300</integer>
-        <key>StandardOutPath</key>
-        <string>/tmp/battery.check</string>
-        <key>StandardErrorPath</key>
-        <string>/tmp/battery.check.error</string>
     </dict>
 </plist>
